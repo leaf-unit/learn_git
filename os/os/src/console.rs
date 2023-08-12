@@ -1,6 +1,5 @@
 use core::fmt::{Write, Arguments, Result};
 use crate::sys_write;
-
 struct Stdout;
 
 impl Write for Stdout {
