@@ -1,10 +1,15 @@
+
 #![no_std]
 #![no_main]
 
+use sbi::shutdown;
+
 #[macro_use]
 mod console;
-
 mod lang_item;
+mod sbi;
+
+core::arch::global_asm!(include_str!("entry.asm"));
 
 const SYSCALL_EXIT: usize = 93;
 const SYSCALL_WRITE: usize = 64;
@@ -14,7 +19,7 @@ pub fn sys_write(fd: usize, buffer: &[u8]) -> isize {
 }
 
 
-fn syscall(id: usize, args: [usize; 3]) -> isize {
+fn syscall(id: usize, args: [usize; 3]) -> isize {//系统调用
     let mut ret;
     unsafe {
         core::arch::asm!(
@@ -36,5 +41,11 @@ pub fn sys_exit(xstate: i32) -> isize {
 extern "C" fn _start() {
     print!("Hello,");
     println!("world!");
-    sys_exit(9);
+    shutdown();
+    // sys_exit(9);
+}
+
+#[no_mangle]
+pub fn rust_main()->!{
+    shutdown();
 }
