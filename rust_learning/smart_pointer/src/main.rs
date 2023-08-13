@@ -1,6 +1,12 @@
 //mod box1;
 //mod arc1;
-mod cow1;
+mod Mytype;
 fn main() {
-    cow1::cow1();
+    let a = Mytype::Personal_info::new();
+    let b = Mytype::Personal_info{
+        name:"leaf",
+        age:99
+    };
+    let c =a+b;
+    println!("{:?}",b);
 }
